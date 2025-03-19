@@ -3,14 +3,14 @@ import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet } from "react
 import { useCart } from "../(tabs)/cartContext";
 
 const CartScreen = () => {
-  const { cart, removeFromCart, getTotal, clearCart } = useCart();
+  const { cart, removeFromCart, clearCart } = useCart();
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Carrinho de Compras</Text>
 
       {cart.length === 0 ? (
-        <Text style={styles.emptyText}>Seu carrinho está vazio</Text>
+        <Text style={styles.emptyText}>Seu carrinho está vazio.</Text>
       ) : (
         <>
           <FlatList
@@ -19,10 +19,9 @@ const CartScreen = () => {
             renderItem={({ item }) => (
               <View style={styles.cartItem}>
                 <Image source={item.image} style={styles.image} />
-                <View style={styles.info}>
+                <View style={styles.details}>
                   <Text style={styles.name}>{item.name}</Text>
                   <Text style={styles.price}>R$ {item.price.toFixed(2)}</Text>
-                  <Text style={styles.quantity}>Qtd: {item.quantity}</Text>
                 </View>
                 <TouchableOpacity onPress={() => removeFromCart(item.id)} style={styles.removeButton}>
                   <Text style={styles.removeText}>Remover</Text>
@@ -30,7 +29,6 @@ const CartScreen = () => {
               </View>
             )}
           />
-          <Text style={styles.total}>Total: R$ {getTotal().toFixed(2)}</Text>
           <TouchableOpacity onPress={clearCart} style={styles.clearButton}>
             <Text style={styles.clearText}>Limpar Carrinho</Text>
           </TouchableOpacity>
@@ -55,7 +53,7 @@ const styles = StyleSheet.create({
   emptyText: {
     textAlign: "center",
     fontSize: 16,
-    color: "#666",
+    color: "#888",
   },
   cartItem: {
     flexDirection: "row",
@@ -65,11 +63,11 @@ const styles = StyleSheet.create({
     borderBottomColor: "#ddd",
   },
   image: {
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
     marginRight: 10,
   },
-  info: {
+  details: {
     flex: 1,
   },
   name: {
@@ -80,33 +78,26 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#555",
   },
-  quantity: {
-    fontSize: 14,
-    color: "#777",
-  },
   removeButton: {
-    padding: 5,
-    backgroundColor: "#ff6666",
+    backgroundColor: "#E57373",
+    padding: 8,
     borderRadius: 5,
   },
   removeText: {
     color: "#fff",
-  },
-  total: {
-    fontSize: 18,
+    fontSize: 12,
     fontWeight: "bold",
-    textAlign: "center",
-    marginVertical: 20,
   },
   clearButton: {
-    backgroundColor: "#ff3333",
+    marginTop: 20,
+    backgroundColor: "#D32F2F",
     padding: 10,
     borderRadius: 5,
     alignItems: "center",
   },
   clearText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
   },
 });

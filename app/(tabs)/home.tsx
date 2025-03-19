@@ -9,14 +9,22 @@ import { useCart } from '../(tabs)/cartContext';  // Importa o contexto do carri
 type NavigationProps = NativeStackNavigationProp<RootStackParamList, 'home'>;
 
 const products = [
-  { id: 1, name: 'Camiseta Azul ****', image: require('../../assets/images/produtos/camiseta2.png'), price: 129.90 },
-  { id: 2, name: 'Camiseta Azul ****', image: require('../../assets/images/produtos/camiseta5.png'), price: 129.90 },
-  { id: 3, name: 'Camiseta Azul ****', image: require('../../assets/images/produtos/leg3.png'), price: 129.90 },
-  { id: 4, name: 'Camiseta Azul ****', image: require('../../assets/images/produtos/leg4.png'), price: 129.90 },
-  { id: 5, name: 'Camiseta Azul ****', image: require('../../assets/images/produtos/regata4.png'), price: 129.90 },
-  { id: 6, name: 'Camiseta Azul ****', image: require('../../assets/images/produtos/regata5.png'), price: 129.90 },
-  { id: 7, name: 'Camiseta Azul ****', image: require('../../assets/images/produtos/top5.png'), price: 129.90 },
-  { id: 8, name: 'Camiseta Azul ****', image: require('../../assets/images/produtos/top2.png'), price: 129.90 },
+  { id: 1, name: 'Camiseta Dry Fit Gola V Reflective - Preto', image: require('../../assets/images/produtos/camiseta5.png'), price: 164.90 },
+  { id: 2, name: 'Camiseta Tech Modal Winter - Branco', image: require('../../assets/images/produtos/camiseta2.png'), price: 169.90 },
+  { id: 3, name: 'Legging Seamless Training - Cinza', image: require('../../assets/images/produtos/leg3.png'), price: 229.90 },
+  { id: 4, name: 'Legging Seamless Tech - Preto', image: require('../../assets/images/produtos/leg4.png'), price: 209.90 },
+  { id: 5, name: 'Regata Dry Army Neck - Off-White', image: require('../../assets/images/produtos/regata4.png'), price: 144.90 },
+  { id: 6, name: 'Regata Dry Army Neck - Preto', image: require('../../assets/images/produtos/regata5.png'), price: 144.90 },
+  { id: 7, name: 'Top Seamless Adaptive - Marrom', image: require('../../assets/images/produtos/top5.png'), price: 189.90 },
+  { id: 8, name: 'Top Seamless Mesh - Mescla', image: require('../../assets/images/produtos/top2.png'), price: 189.90 },
+  { id: 9, name: 'Shorts Poliamida Reflective - Preto', image: require('../../assets/images/produtos/short3.png'), price: 259.90 },
+  { id: 10, name: 'Shorts Eco Tech Jogger - Carbox', image: require('../../assets/images/produtos/short4.png'), price: 259.90 }, 
+  { id: 11, name: 'Cropped Manga Curta Dry Athleisure - Off-White', image: require('../../assets/images/produtos/blusa4.png'), price: 139.90 },
+  { id: 12, name: 'Cropped Manga Curta Dry Athleisure - Chumbo', image: require('../../assets/images/produtos/blusa5.png'), price: 139.90 },
+  { id: 13, name: 'Clenbuterol 200mcg/ml (30ml)', image: require('../../assets/images/clenbuterol.jpg'), price: 274.45 },
+  { id: 14, name: 'Deca-Durabolin 50mg/ml (1ml)', image: require('../../assets/images/deca.png'), price: 172.90 },
+  { id: 15, name: 'Durateston 250mg/ml (10ml)', image: require('../../assets/images/durateston.jpg'), price: 129.90 },
+  { id: 16, name: 'Kit 15 Seringas + Agulha Hipodérmicas + Gase', image: require('../../assets/images/kit.png'), price: 24.90 },
 ];
 
 const Home: React.FC = () => {
@@ -93,7 +101,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   addToCartButton: {
-    backgroundColor: '#5dc1b9',
+    backgroundColor: 'black',
     paddingVertical: 8,
     borderRadius: 9999,
     marginTop: 8,
@@ -105,7 +113,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   messageContainer: {
-    backgroundColor: '#5dc1b9',
+    backgroundColor: 'green',
     padding: 10,
     borderRadius: 8,
     marginBottom: 10,

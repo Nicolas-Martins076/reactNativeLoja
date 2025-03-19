@@ -1,105 +1,101 @@
-import React from "react";
-import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet } from "react-native";
-import { useCart } from "../(tabs)/cartContext";
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { useCart } from '../(tabs)/cartContext';
 
-const CartScreen = () => {
-  const { cart, removeFromCart, clearCart } = useCart();
+const CartScreen: React.FC = () => {
+  const { cart, removeFromCart, clearCart, getTotal } = useCart();
+  const [purchaseConfirmed, setPurchaseConfirmed] = useState(false);
+  const [deliveryMethod, setDeliveryMethod] = useState<'Retirada' | 'Entrega'>('Retirada');
+  const [paymentMethod, setPaymentMethod] = useState<'Cartão' | 'Pix' | 'Boleto'>('Cartão');
+
+  const finalizePurchase = () => {
+    setPurchaseConfirmed(true);
+    clearCart(); // Limpa o carrinho após a compra ser finalizada
+    setTimeout(() => setPurchaseConfirmed(false), 3000);
+  };
+
+  const renderItem = ({ item }: { item: { id: number; name: string; price: number; quantity: number } }) => (
+    <View style={styles.cartItem}>
+      <Text style={styles.itemName}>{item.name}</Text>
+      <Text style={styles.itemDetails}>Preço: R$ {item.price.toFixed(2)}</Text>
+      <Text style={styles.itemDetails}>Quantidade: {item.quantity}</Text>
+      <TouchableOpacity style={styles.removeButton} onPress={() => removeFromCart(item.id)}>
+        <Text style={styles.removeButtonText}>Remover</Text>
+      </TouchableOpacity>
+    </View>
+  );
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Carrinho de Compras</Text>
-
+      <Text style={styles.header}>Carrinho de Compras</Text>
       {cart.length === 0 ? (
-        <Text style={styles.emptyText}>Seu carrinho está vazio.</Text>
+        <Text style={styles.emptyCartText}>Seu carrinho está vazio!</Text>
       ) : (
-        <>
-          <FlatList
-            data={cart}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <View style={styles.cartItem}>
-                <Image source={item.image} style={styles.image} />
-                <View style={styles.details}>
-                  <Text style={styles.name}>{item.name}</Text>
-                  <Text style={styles.price}>R$ {item.price.toFixed(2)}</Text>
-                </View>
-                <TouchableOpacity onPress={() => removeFromCart(item.id)} style={styles.removeButton}>
-                  <Text style={styles.removeText}>Remover</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-          />
-          <TouchableOpacity onPress={clearCart} style={styles.clearButton}>
-            <Text style={styles.clearText}>Limpar Carrinho</Text>
+        <FlatList data={cart} renderItem={renderItem} keyExtractor={(item) => item.id.toString()} />
+      )}
+
+      <Text style={styles.totalText}>Total: R$ {getTotal().toFixed(2)}</Text>
+      
+      <View style={styles.optionsContainer}>
+        <Text style={styles.optionTitle}>Escolha o tipo de entrega:</Text>
+        <View style={styles.optionRow}>
+          <TouchableOpacity style={[styles.optionButton, deliveryMethod === 'Retirada' && styles.selected]} onPress={() => setDeliveryMethod('Retirada')}>
+            <Text style={styles.optionText}>Retirada na loja</Text>
           </TouchableOpacity>
-        </>
+          <TouchableOpacity style={[styles.optionButton, deliveryMethod === 'Entrega' && styles.selected]} onPress={() => setDeliveryMethod('Entrega')}>
+            <Text style={styles.optionText}>Entrega</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <View style={styles.optionsContainer}>
+        <Text style={styles.optionTitle}>Escolha a forma de pagamento:</Text>
+        <View style={styles.optionRow}>
+          <TouchableOpacity style={[styles.optionButton, paymentMethod === 'Cartão' && styles.selected]} onPress={() => setPaymentMethod('Cartão')}>
+            <Text style={styles.optionText}>Cartão</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.optionButton, paymentMethod === 'Pix' && styles.selected]} onPress={() => setPaymentMethod('Pix')}>
+            <Text style={styles.optionText}>Pix</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.optionButton, paymentMethod === 'Boleto' && styles.selected]} onPress={() => setPaymentMethod('Boleto')}>
+            <Text style={styles.optionText}>Boleto</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      
+      <TouchableOpacity style={styles.clearButton} onPress={finalizePurchase}>
+        <Text style={styles.clearButtonText}>Finalizar Compra</Text>
+      </TouchableOpacity>
+      
+      {purchaseConfirmed && (
+        <View style={styles.purchaseMessage}>
+          <Text style={styles.purchaseMessageText}>Compra Aprovada! 🎉</Text>
+        </View>
       )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: "#fff",
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: "bold",
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  emptyText: {
-    textAlign: "center",
-    fontSize: 16,
-    color: "#888",
-  },
-  cartItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
-  },
-  image: {
-    width: 60,
-    height: 60,
-    marginRight: 10,
-  },
-  details: {
-    flex: 1,
-  },
-  name: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  price: {
-    fontSize: 14,
-    color: "#555",
-  },
-  removeButton: {
-    backgroundColor: "#E57373",
-    padding: 8,
-    borderRadius: 5,
-  },
-  removeText: {
-    color: "#fff",
-    fontSize: 12,
-    fontWeight: "bold",
-  },
-  clearButton: {
-    marginTop: 20,
-    backgroundColor: "#D32F2F",
-    padding: 10,
-    borderRadius: 5,
-    alignItems: "center",
-  },
-  clearText: {
-    color: "#fff",
-    fontSize: 14,
-    fontWeight: "bold",
-  },
+  container: { flex: 1, padding: 20 },
+  header: { fontSize: 22, fontWeight: 'bold' },
+  emptyCartText: { marginTop: 20, textAlign: 'center' },
+  totalText: { fontSize: 18, marginTop: 20 },
+  cartItem: { padding: 10, borderBottomWidth: 1, borderBottomColor: '#ccc' },
+  itemName: { fontSize: 16, fontWeight: 'bold' },
+  itemDetails: { fontSize: 14, color: 'gray' },
+  removeButton: { marginTop: 5, padding: 5, backgroundColor: 'red', borderRadius: 5 },
+  removeButtonText: { color: 'white', textAlign: 'center' },
+  clearButton: { marginTop: 20, padding: 10, backgroundColor: 'black', borderRadius: 5 },
+  clearButtonText: { color: 'white', textAlign: 'center' },
+  optionsContainer: { marginTop: 20 },
+  optionTitle: { fontSize: 16, fontWeight: 'bold' },
+  optionRow: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 },
+  optionButton: { padding: 10, backgroundColor: '#ccc', borderRadius: 5 },
+  selected: { backgroundColor: '#5dc1b9' },
+  optionText: { color: 'white' },
+  purchaseMessage: { marginTop: 20, padding: 10, backgroundColor: 'green', borderRadius: 5 },
+  purchaseMessageText: { color: 'white', textAlign: 'center', fontSize: 16 },
 });
 
 export default CartScreen;

@@ -6,6 +6,9 @@ const categories = [
   { name: 'Leggings', image: require('../assets/images/produtos/leg3.png') },
   { name: 'Regatas', image: require('../assets/images/produtos/regata5.png') },
   { name: 'Tops', image: require('../assets/images/produtos/top2.png') },
+  { name: 'Shorts', image: require('../assets/images/produtos/short3.png') },
+  { name: 'Blusas', image: require('../assets/images/produtos/blusa4.png') },
+  { name: 'Danones', image: require('../assets/images/seringa1.jpg') },
 ];
 
 const Categories = () => {

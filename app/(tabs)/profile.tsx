@@ -5,6 +5,8 @@ export default function Perfil() {
     return (
       <View>
         <Text>Perfil do Usuário</Text>
+                <Text></Text>
+                <Text>-FUTURA EXPANSÃO-</Text>
       </View>
     );
   }
